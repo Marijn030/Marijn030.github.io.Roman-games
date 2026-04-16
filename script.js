@@ -1,7 +1,6 @@
 const BOARD_WIDTH = 4032;
 const BOARD_HEIGHT = 3024;
 
-// Exact circles from your image map.
 const nodes = [
   { x: 1633, y: 581,  r: 138 }, // 0 top
   { x: 2705, y: 648,  r: 132 }, // 1 top-right
@@ -139,7 +138,7 @@ function updateStatus() {
 
     } else {
       turnText.textContent =
-        `Speler ${currentPlayer}: kies een geldige plek om naartoe te bewegen`;
+        `Speler ${currentPlayer}: kies een lege (aangrenzende) plek om naartoe te bewegen`;
     }
   }
 
