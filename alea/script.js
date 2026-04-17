@@ -56,38 +56,48 @@ document.addEventListener('DOMContentLoaded', () => {
   function randomizeDicePositions() {
     const isPhone = window.innerWidth <= 640;
 
-    const spots = isPhone
-      ? [
-          { left: 20, bottom: 24 },
-          { left: 38, bottom: 10 },
-          { left: 52, bottom: 27 },
-          { left: 67, bottom: 13 },
-          { left: 82, bottom: 23 }
-        ]
-      : [
-          { left: 19, bottom: 20 },
-          { left: 33, bottom: 11 },
-          { left: 49, bottom: 23 },
-          { left: 63, bottom: 13 },
-          { left: 75, bottom: 19 }
-        ];
+    const placed = [];
 
-    const shuffled = [...spots].sort(() => Math.random() - 0.5);
+    // how far dice must be apart (bigger on phone)
+    const minDistance = isPhone ? 18 : 14;
 
     dieSlots.forEach((slot, index) => {
-      const img = slot.querySelector('.result-die');
-      const pos = shuffled[index];
+        let tries = 0;
+        let pos;
 
-      const x = randomInt(-2, 2);
-      const y = randomInt(-2, 2);
-      const rot = randomInt(-16, 16);
+        do {
+        pos = {
+            left: randomInt(20, 80),
+            bottom: isPhone
+            ? randomInt(12, 32)   // more vertical space on phone
+            : randomInt(10, 26)
+        };
 
-      slot.style.left = `${pos.left + x}%`;
-      slot.style.bottom = `${pos.bottom + y}%`;
+        tries++;
 
-      if (img) {
+        // stop infinite loop just in case
+        if (tries > 50) break;
+
+        } while (
+        placed.some(p => {
+            const dx = p.left - pos.left;
+            const dy = p.bottom - pos.bottom;
+            return Math.sqrt(dx * dx + dy * dy) < minDistance;
+        })
+        );
+
+        placed.push(pos);
+
+        const img = slot.querySelector('.result-die');
+
+        const rot = randomInt(-18, 18);
+
+        slot.style.left = `${pos.left}%`;
+        slot.style.bottom = `${pos.bottom}%`;
+
+        if (img) {
         img.style.transform = `translate(-50%, 0) rotate(${rot}deg)`;
-      }
+        }
     });
   }
 
