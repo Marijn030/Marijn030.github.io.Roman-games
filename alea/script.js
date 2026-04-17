@@ -55,13 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function randomizeDicePositions() {
     const isPhone = window.innerWidth <= 640;
-
     const placed = [];
-    const minDistance = isPhone ? 20 : 15;
+    const minDistance = isPhone ? 20 : 16;
 
     const bounds = isPhone
-        ? { leftMin: 18, leftMax: 82, bottomMin: 8, bottomMax: 42 }
-        : { leftMin: 18, leftMax: 78, bottomMin: 10, bottomMax: 30 };
+        ? { leftMin: 18, leftMax: 82, bottomMin: 10, bottomMax: 42 }
+        : { leftMin: 18, leftMax: 78, bottomMin: 12, bottomMax: 40 };
 
     dieSlots.forEach((slot) => {
         let tries = 0;
@@ -73,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             bottom: randomInt(bounds.bottomMin, bounds.bottomMax)
         };
         tries++;
-        if (tries > 80) break;
+        if (tries > 100) break;
         } while (
         placed.some((p) => {
             const dx = p.left - pos.left;
