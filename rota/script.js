@@ -44,7 +44,6 @@ const boardImg = document.getElementById("board");
 const holesContainer = document.getElementById("holes");
 const piecesContainer = document.getElementById("pieces");
 
-const phaseText = document.getElementById("phaseText");
 const turnText = document.getElementById("turnText");
 const countP1 = document.getElementById("countP1");
 const countP2 = document.getElementById("countP2");
@@ -151,19 +150,15 @@ function updateStatus() {
   countP2.textContent = placed[2];
 
   if (gameOver) {
-    phaseText.textContent = "Afgelopen";
     turnText.textContent = "Het spel is voorbij";
     turnText.className = "value";
     return;
   }
 
   if (isPlacementPhase()) {
-    phaseText.textContent = "Plaatsen";
     turnText.textContent =
       `Speler ${currentPlayer}: kies een plek en plaats je steen`;
   } else {
-    phaseText.textContent = "Verplaatsen";
-
     if (!selected) {
       turnText.textContent =
         `Speler ${currentPlayer}: kies een steen om te verplaatsen`;

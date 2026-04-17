@@ -305,11 +305,9 @@ body {
     order: 1;
   }
 
-  /* iPad / tablet: 50% smaller stones */
   .piece {
-    width: clamp(17px, 2.6vw, 26px);
-    height: clamp(17px, 2.6vw, 26px);
-    object-fit: contain;
+    width: clamp(40px, 6vw, 64px);
+    height: clamp(40px, 6vw, 64px);
   }
 
   .piece[data-player="1"] {
@@ -353,6 +351,14 @@ body {
   }
 }
 
+@media (max-width: 1200px) and (orientation: landscape) {
+  .piece {
+    width: clamp(32px, 4vw, 52px);
+    height: clamp(32px, 4vw, 52px);
+  }
+}
+
+/* phone */
 @media (max-width: 600px) {
   .app {
     padding: 20px 14px 28px;
@@ -363,6 +369,15 @@ body {
     border-radius: 18px;
   }
 
+  .hole {
+    transform: translate(-50%, -50%) scale(0.50);
+  }
+
+  .piece {
+    width: clamp(18px, 4.5vw, 28px);
+    height: clamp(18px, 4.5vw, 28px);
+  }
+
   .piece[data-player="1"] {
     filter:
       brightness(1)
@@ -371,7 +386,7 @@ body {
 
   .piece[data-player="2"] {
     filter:
-      brightness(0.4)
+      brightness(0.72)
       drop-shadow(0 5px 8px rgba(0,0,0,0.75));
   }
 
@@ -384,7 +399,7 @@ body {
 
   .piece[data-player="2"].selected {
     filter:
-      brightness(0.4)
+      brightness(0.72)
       drop-shadow(0 0 0.35rem rgba(255, 240, 180, 0.85))
       drop-shadow(0 8px 14px rgba(0,0,0,0.75));
   }
@@ -398,9 +413,79 @@ body {
 
   .piece[data-player="2"].removable {
     filter:
-      brightness(0.4)
+      brightness(0.72)
       drop-shadow(0 0 0.5rem rgba(255, 110, 110, 0.95))
       drop-shadow(0 8px 14px rgba(0,0,0,0.75));
+  }
+}
+
+/* phone landscape */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  .app {
+    padding: 14px 12px 20px;
+  }
+
+  .topbar {
+    margin-bottom: 14px;
+  }
+
+  .topbar h1 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+  }
+
+  .subtitle {
+    font-size: 0.92rem;
+  }
+
+  .game-shell {
+    grid-template-columns: 190px 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .info-panel {
+    order: 1;
+    padding: 14px;
+  }
+
+  .board-panel {
+    order: 2;
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  #game {
+    width: min(100%, calc((100dvh - 30px) * 1.3333));
+    max-width: 100%;
+    aspect-ratio: 920 / 690;
+  }
+
+  .piece {
+    width: clamp(18px, 4.5vw, 28px);
+    height: clamp(18px, 4.5vw, 28px);
+  }
+
+  .hole {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+
+  .hole:hover {
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  .hole.valid-target:hover {
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  .status-card {
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .reset-btn,
+  .modal-btn {
+    padding: 10px 14px;
+    font-size: 0.95rem;
   }
 }
 
@@ -414,4 +499,8 @@ body {
 
 .back-link:hover {
   text-decoration: underline;
+}
+
+.reset-btn + .reset-btn {
+  margin-top: 10px;
 }

@@ -97,17 +97,16 @@ let placed = { 1: 0, 2: 0 };
 let selected = null;
 let gameOver = false;
 let removeMode = false;
+let hintsEnabled = true;
 
 const game = document.getElementById("game");
 const holesContainer = document.getElementById("holes");
 const piecesContainer = document.getElementById("pieces");
 
-const phaseText = document.getElementById("phaseText");
 const turnText = document.getElementById("turnText");
-const countP1Placed = document.getElementById("countP1Placed");
-const countP2Placed = document.getElementById("countP2Placed");
 const countP1Board = document.getElementById("countP1Board");
 const countP2Board = document.getElementById("countP2Board");
+const toggleHintsBtn = document.getElementById("toggleHintsBtn");
 const resetBtn = document.getElementById("resetBtn");
 
 const winModal = document.getElementById("winModal");
@@ -206,7 +205,7 @@ function refreshHoles() {
       return;
     }
 
-    if (selected && !isPlacementPhase()) {
+    if (selected && hintsEnabled && !isPlacementPhase()) {
       if (connections[selected.from].includes(index)) {
         holeEl.classList.add("valid-target");
       } else {
@@ -233,31 +232,24 @@ function refreshPieceHighlights() {
 }
 
 function updateStatus() {
-  countP1Placed.textContent = placed[1];
-  countP2Placed.textContent = placed[2];
   countP1Board.textContent = getPlayerStoneCount(1);
   countP2Board.textContent = getPlayerStoneCount(2);
 
   if (gameOver) {
-    phaseText.textContent = "Afgelopen";
     turnText.textContent = "Het spel is voorbij";
     turnText.className = "value";
     return;
   }
 
   if (removeMode) {
-    phaseText.textContent = "Slaan";
     turnText.textContent = `Speler ${currentPlayer}: neem 1 steen van je tegenstander weg`;
     turnText.className = `value player-${currentPlayer}`;
     return;
   }
 
   if (isPlacementPhase()) {
-    phaseText.textContent = "Plaatsen";
     turnText.textContent = `Speler ${currentPlayer}: kies een lege plek en plaats je steen`;
   } else {
-    phaseText.textContent = "Verplaatsen";
-
     if (!selected) {
       turnText.textContent = `Speler ${currentPlayer}: kies een steen om te verplaatsen`;
     } else {
@@ -421,6 +413,7 @@ function createHoles() {
     const r = Math.max(scaleR(node.r), 14);
 
     hole.className = "hole";
+    hole.dataset.index = String(index);
     hole.style.left = `${x}px`;
     hole.style.top = `${y}px`;
     hole.style.width = `${r * 2}px`;
@@ -468,4 +461,14 @@ window.addEventListener("resize", () => {
   createHoles();
   repositionPieces();
   refreshPieceHighlights();
+});
+
+toggleHintsBtn.addEventListener("click", () => {
+  hintsEnabled = !hintsEnabled;
+
+  toggleHintsBtn.textContent = hintsEnabled
+    ? "Zet hints uit"
+    : "Zet hints aan";
+
+  refreshHoles();
 });

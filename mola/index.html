@@ -28,11 +28,6 @@
     <section class="game-shell">
       <aside class="info-panel">
         <div class="status-card">
-          <span class="label">Fase</span>
-          <div id="phaseText" class="value">Plaatsen</div>
-        </div>
-
-        <div class="status-card">
           <span class="label">Beurt</span>
           <div id="turnText" class="value player-1">Speler 1 legt een steen</div>
         </div>
@@ -40,13 +35,11 @@
         <div class="status-card small">
           <span class="label">Stenen</span>
           <div class="stone-counts">
-            <div>Speler 1 geplaatst: <strong id="countP1Placed">0</strong>/9</div>
-            <div>Speler 2 geplaatst: <strong id="countP2Placed">0</strong>/9</div>
             <div>Speler 1 stenen op bord: <strong id="countP1Board">0</strong></div>
             <div>Speler 2 stenen op bord: <strong id="countP2Board">0</strong></div>
           </div>
         </div>
-
+        <button id="toggleHintsBtn" class="reset-btn">Zet hints uit</button>
         <button id="resetBtn" class="reset-btn">Reset spel</button>
       </aside>
 
