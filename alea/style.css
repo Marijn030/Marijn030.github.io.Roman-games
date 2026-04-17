@@ -209,7 +209,7 @@ body {
 .tower-wrap {
   position: absolute;
   left: 50%;
-  top: 15%;
+  top: 22%;
   width: 46%;
   transform: translateX(-50%);
   z-index: 2;
@@ -353,7 +353,7 @@ body {
 
   .tower-wrap {
     width: 52%;
-    top: 13%;
+    top: 20%;
   }
 
   .dice-tray {
