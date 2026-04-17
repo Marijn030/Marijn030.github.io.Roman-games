@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dobbelspel</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+  <main class="app">
+    <a href="../index.html" class="back-link">← Terug naar home</a>
+
+    <header class="topbar">
+      <h1>Dobbelspel</h1>
+      <p class="subtitle">Klik op de dobbelsteen bovenaan en gooi 5 dobbelstenen door de toren.</p>
+    </header>
+
+    <section class="game-shell">
+      <aside class="info-panel">
+        <div class="status-card">
+          <span class="label">Laatste worp</span>
+          <div id="resultSummary" class="value">Nog niet gegooid</div>
+        </div>
+
+        <div class="status-card small">
+          <span class="label">Totaal</span>
+          <div id="totalValue" class="big-total">0</div>
+        </div>
+
+        <button id="rollBtn" class="action-btn">Gooi dobbelstenen</button>
+        <button id="resetBtn" class="action-btn secondary">Reset</button>
+
+        <p class="help-text">
+          De 3D dobbelsteen bovenaan blijft draaien. Klik erop of op de knop om een nieuwe worp te doen.
+        </p>
+      </aside>
+
+      <section class="board-panel">
+        <div id="tableScene" class="table-scene" aria-label="Dobbeltafel">
+          <img id="tableImage" class="table-image" src="table.png" alt="Dobbeltafel" />
+
+          <div class="top-die-area">
+            <button id="dieTrigger" class="die-trigger" aria-label="Gooi dobbelstenen">
+              <model-viewer
+                id="heroDie"
+                src="dice.glb"
+                alt="3D dobbelsteen"
+                autoplay
+                auto-rotate
+                rotation-per-second="90deg"
+                camera-controls
+                disable-zoom
+                interaction-prompt="none"
+                shadow-intensity="1"
+                exposure="1"
+                environment-image="neutral"
+              ></model-viewer>
+            </button>
+          </div>
+
+          <div id="towerWrap" class="tower-wrap">
+            <img id="towerImage" class="tower-image" src="tower.png" alt="Dobbeltoren" />
+          </div>
+
+          <div id="diceTray" class="dice-tray" aria-live="polite">
+            <div class="die-slot" data-slot="0">
+              <img class="result-die" src="dice1.png" alt="Dobbelsteen 1" />
+              <span class="die-value">?</span>
+            </div>
+            <div class="die-slot" data-slot="1">
+              <img class="result-die" src="dice2.png" alt="Dobbelsteen 2" />
+              <span class="die-value">?</span>
+            </div>
+            <div class="die-slot" data-slot="2">
+              <img class="result-die" src="dice3.png" alt="Dobbelsteen 3" />
+              <span class="die-value">?</span>
+            </div>
+            <div class="die-slot" data-slot="3">
+              <img class="result-die" src="dice4.png" alt="Dobbelsteen 4" />
+              <span class="die-value">?</span>
+            </div>
+            <div class="die-slot" data-slot="4">
+              <img class="result-die" src="dice5.png" alt="Dobbelsteen 5" />
+              <span class="die-value">?</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
