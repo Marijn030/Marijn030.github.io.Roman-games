@@ -160,10 +160,7 @@ function refreshHoles() {
     }
 
     if (!selected) return;
-
-    if (!hintsEnabled) {
-      return;
-    }
+    if (!hintsEnabled) return;
 
     if (connections[selected.from].includes(index)) {
       holeEl.classList.add("valid-target");
@@ -216,6 +213,7 @@ function hideRoundModal() {
 
 function switchPlayer() {
   currentPlayer = currentPlayer === HUNTER ? PREY : HUNTER;
+  clearSelection();
   refreshPieceStates();
   refreshHoles();
   updateStatus();
@@ -237,11 +235,20 @@ function createPiece(player, index) {
     if (player !== currentPlayer) return;
     if (player === PREY && isTrappedPrey(Number(el.dataset.index))) return;
 
+    const pieceIndex = Number(el.dataset.index);
+
+    if (selected && selected.el === el) {
+      clearSelection();
+      refreshHoles();
+      updateStatus();
+      return;
+    }
+
     clearSelection();
     el.classList.add("selected");
     selected = {
       el,
-      from: Number(el.dataset.index)
+      from: pieceIndex
     };
 
     refreshHoles();

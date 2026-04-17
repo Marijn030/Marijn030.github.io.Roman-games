@@ -97,6 +97,18 @@ function clearHighlights() {
   });
 }
 
+function getValidPlacementTargets() {
+  const targets = [];
+
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === null) {
+      targets.push(i);
+    }
+  }
+
+  return targets;
+}
+
 function getValidMoves(fromIndex) {
   return connections[fromIndex].filter(index => board[index] === null);
 }
@@ -130,17 +142,33 @@ function switchPlayer() {
 }
 
 function refreshHoles() {
+  const placementTargets = hintsEnabled && isPlacementPhase() && !gameOver
+    ? new Set(getValidPlacementTargets())
+    : new Set();
+
   document.querySelectorAll(".hole").forEach((holeEl, index) => {
+    holeEl.classList.remove("occupied", "valid-target");
+
     if (board[index] !== null || gameOver) {
       holeEl.classList.add("occupied");
-    } else {
-      holeEl.classList.remove("occupied");
+      return;
+    }
+
+    if (!hintsEnabled) {
+      return;
+    }
+
+    if (isPlacementPhase()) {
+      if (placementTargets.has(index)) {
+        holeEl.classList.add("valid-target");
+      }
+      return;
     }
   });
 
-  if (selected && hintsEnabled) {
+  if (selected && hintsEnabled && !isPlacementPhase()) {
     highlightValidMoves(selected.from);
-  } else {
+  } else if (!isPlacementPhase()) {
     clearHighlights();
   }
 }
@@ -336,7 +364,7 @@ toggleHintsBtn.addEventListener("click", () => {
 
   if (!hintsEnabled) {
     clearHighlights();
-  } else if (selected) {
-    highlightValidMoves(selected.from);
+  } else {
+    refreshHoles();
   }
 });

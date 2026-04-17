@@ -196,16 +196,46 @@ function hasAnyLegalMove(player) {
   });
 }
 
+function getValidPlacementTargets() {
+  const targets = [];
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === null) {
+      targets.push(i);
+    }
+  }
+  return targets;
+}
+
 function refreshHoles() {
+  const placementTargets = hintsEnabled && isPlacementPhase() && !gameOver && !removeMode
+    ? new Set(getValidPlacementTargets())
+    : new Set();
+
   document.querySelectorAll(".hole").forEach((holeEl, index) => {
     holeEl.classList.remove("occupied", "valid-target");
 
-    if (board[index] !== null || gameOver || removeMode) {
+    if (gameOver || removeMode) {
       holeEl.classList.add("occupied");
       return;
     }
 
-    if (selected && hintsEnabled && !isPlacementPhase()) {
+    if (board[index] !== null) {
+      holeEl.classList.add("occupied");
+      return;
+    }
+
+    if (!hintsEnabled) {
+      return;
+    }
+
+    if (isPlacementPhase()) {
+      if (placementTargets.has(index)) {
+        holeEl.classList.add("valid-target");
+      }
+      return;
+    }
+
+    if (selected) {
       if (connections[selected.from].includes(index)) {
         holeEl.classList.add("valid-target");
       } else {
