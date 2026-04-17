@@ -53,12 +53,13 @@ let currentPlayer = HUNTER;
 let selected = null;
 let gameOver = false;
 let hunterMoveCount = 0;
+let hintsEnabled = true;
 
 let round = 1;
-let hunterOwner = "A"; // round 1: A hunts, round 2: B hunts
+let hunterOwner = "1"; // round 1: 1 hunts, round 2: 2 hunts
 let scores = {
-  A: null,
-  B: null
+  1: null,
+  2: null
 };
 
 const game = document.getElementById("game");
@@ -67,13 +68,13 @@ const piecesContainer = document.getElementById("pieces");
 
 const roundText = document.getElementById("roundText");
 const rolesText = document.getElementById("rolesText");
-const phaseText = document.getElementById("phaseText");
 const turnText = document.getElementById("turnText");
 const hunterMoves = document.getElementById("hunterMoves");
 const freePreyCount = document.getElementById("freePreyCount");
 const trappedPreyCount = document.getElementById("trappedPreyCount");
 const scoreA = document.getElementById("scoreA");
 const scoreB = document.getElementById("scoreB");
+const toggleHintsBtn = document.getElementById("toggleHintsBtn");
 const resetBtn = document.getElementById("resetBtn");
 
 const roundModal = document.getElementById("roundModal");
@@ -160,6 +161,10 @@ function refreshHoles() {
 
     if (!selected) return;
 
+    if (!hintsEnabled) {
+      return;
+    }
+
     if (connections[selected.from].includes(index)) {
       holeEl.classList.add("valid-target");
     } else {
@@ -171,24 +176,21 @@ function refreshHoles() {
 function updateStatus() {
   roundText.textContent = `Ronde ${round} van 2`;
   rolesText.textContent =
-    hunterOwner === "A"
-      ? "Speler A = Jager, Speler B = Prooi"
-      : "Speler B = Jager, Speler A = Prooi";
+    hunterOwner === "1"
+      ? "Speler 1 = Jager, Speler 2 = Prooi"
+      : "Speler 2 = Jager, Speler 1 = Prooi";
 
   hunterMoves.textContent = hunterMoveCount;
   freePreyCount.textContent = countFreePrey();
   trappedPreyCount.textContent = countTrappedPrey();
-  scoreA.textContent = scores.A === null ? "—" : scores.A;
-  scoreB.textContent = scores.B === null ? "—" : scores.B;
+  scoreA.textContent = scores[1] === null ? "—" : scores[1];
+  scoreB.textContent = scores[2] === null ? "—" : scores[2];
 
   if (gameOver) {
-    phaseText.textContent = "Afgelopen";
     turnText.textContent = "De jacht is voorbij";
     turnText.className = "value";
     return;
   }
-
-  phaseText.textContent = "Spelen";
 
   if (!selected) {
     turnText.textContent =
@@ -295,12 +297,12 @@ function finishRound() {
     );
   } else {
     let result;
-    if (scores.A < scores.B) {
-      result = `Speler A wint met ${scores.A} tegen ${scores.B} jagerzetten.`;
-    } else if (scores.B < scores.A) {
-      result = `Speler B wint met ${scores.B} tegen ${scores.A} jagerzetten.`;
+    if (scores[1] < scores[2]) {
+      result = `Speler 1 wint met ${scores[1]} tegen ${scores[2]} jagerzetten.`;
+    } else if (scores[2] < scores[1]) {
+      result = `Speler 2 wint met ${scores[2]} tegen ${scores[1]} jagerzetten.`;
     } else {
-      result = `Gelijkspel: beide spelers hadden ${scores.A} jagerzetten nodig.`;
+      result = `Gelijkspel: beide spelers hadden ${scores[1]} jagerzetten nodig.`;
     }
 
     showRoundModal(
@@ -316,7 +318,7 @@ function startNextRoundOrReset() {
 
   if (round === 1) {
     round = 2;
-    hunterOwner = "B";
+    hunterOwner = "2";
     resetBoardForRound();
   } else {
     resetMatch();
@@ -376,8 +378,8 @@ function resetBoardForRound() {
 
 function resetMatch() {
   round = 1;
-  hunterOwner = "A";
-  scores = { A: null, B: null };
+  hunterOwner = "1";
+  scores = { 1: null, 2: null };
   hideRoundModal();
   resetBoardForRound();
 }
@@ -395,4 +397,14 @@ window.addEventListener("resize", () => {
   createHoles();
   repositionPieces();
   refreshPieceStates();
+});
+
+toggleHintsBtn.addEventListener("click", () => {
+  hintsEnabled = !hintsEnabled;
+
+  toggleHintsBtn.textContent = hintsEnabled
+    ? "Zet hints uit"
+    : "Zet hints aan";
+
+  refreshHoles();
 });

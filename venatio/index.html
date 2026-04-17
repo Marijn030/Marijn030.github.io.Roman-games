@@ -32,12 +32,7 @@
 
         <div class="status-card">
           <span class="label">Rollen</span>
-          <div id="rolesText" class="value">Speler A = Jager, Speler B = Prooi</div>
-        </div>
-
-        <div class="status-card">
-          <span class="label">Fase</span>
-          <div id="phaseText" class="value">Spelen</div>
+          <div id="rolesText" class="value">Speler 1 = Jager, Speler 2 = Prooi</div>
         </div>
 
         <div class="status-card">
@@ -57,11 +52,11 @@
         <div class="status-card small">
           <span class="label">Score</span>
           <div class="stone-counts">
-            <div>Speler A als jager: <strong id="scoreA">—</strong></div>
-            <div>Speler B als jager: <strong id="scoreB">—</strong></div>
+            <div>Speler 1 als jager: <strong id="scoreA">—</strong></div>
+            <div>Speler 2 als jager: <strong id="scoreB">—</strong></div>
           </div>
         </div>
-
+        <button id="toggleHintsBtn" class="reset-btn">Zet hints uit</button>
         <button id="resetBtn" class="reset-btn">Hele wedstrijd resetten</button>
       </aside>
 
@@ -78,7 +73,7 @@
   <div id="roundModal" class="modal hidden">
     <div class="modal-card">
       <h2 id="roundModalTitle">Ronde afgelopen</h2>
-      <p id="roundModalMessage">Speler A sloot de prooi in 12 zetten in.</p>
+      <p id="roundModalMessage">Speler 1 sloot de prooi in 12 zetten in.</p>
       <button id="nextRoundBtn" class="modal-btn">Verder</button>
     </div>
   </div>
