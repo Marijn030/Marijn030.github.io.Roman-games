@@ -5,15 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dobbelsteen Toren</title>
   <link rel="stylesheet" href="dice-style.css" />
-  <script async src="https://unpkg.com/es-module-shims@1.10.0/dist/es-module-shims.js"></script>
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.181.1/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.1/examples/jsm/"
-      }
-    }
-  </script>
 </head>
 <body>
   <div class="page-overlay"></div>
@@ -23,7 +14,9 @@
 
     <header class="topbar">
       <h1>Dobbelsteen Toren</h1>
-      <p class="subtitle">Laat vijf 3D dobbelstenen zweven, geef ze een spin en laat ze daarna door de toren rollen.</p>
+      <p class="subtitle">
+        Laat vijf 3D dobbelstenen zweven, geef ze een spin en laat ze daarna door de toren rollen.
+      </p>
     </header>
 
     <section class="game-shell">
@@ -33,20 +26,18 @@
           <div id="statusText" class="value">De dobbelstenen zweven klaar boven de tafel.</div>
         </div>
 
-        <div class="status-card small">
+        <div class="status-card">
           <span class="label">Worp</span>
-          <div id="results" class="results muted">Nog geen worp.</div>
+          <div id="throwText" class="results-text">Nog geen worp.</div>
         </div>
 
-        <div class="button-stack">
-          <button id="spinBtn" class="action-btn">Spin in de lucht</button>
-          <button id="dropBtn" class="action-btn" disabled>Laat in toren vallen</button>
-          <button id="resetBtn" class="action-btn secondary">Nieuwe worp</button>
-        </div>
+        <button id="spinBtn" class="control-btn primary">Spin in de lucht</button>
+        <button id="dropBtn" class="control-btn secondary">Laat in toren vallen</button>
+        <button id="resetBtn" class="control-btn ghost">Nieuwe worp</button>
 
-        <div class="tip-card">
-          <strong>Assets</strong>
-          <p>
+        <div class="status-card">
+          <span class="label">Assets</span>
+          <p class="assets-note">
             Zet je toren-afbeelding als <code>tower.png</code>, je tafelachtergrond als
             <code>table-bg.jpg</code> en je dobbelsteenmodel als <code>dice.glb</code>
             in dezelfde map. Als er geen GLB is, wordt automatisch een 3D fallback-dobbelsteen gebruikt.
@@ -55,12 +46,14 @@
       </aside>
 
       <section class="board-panel">
-        <div class="scene-wrap">
-          <img class="table-bg" src="table-bg.jpg" alt="Houten tafel" />
+        <div id="sceneWrap">
+          <img id="tableBg" src="table-bg.jpg" alt="Houten tafel" />
           <div id="scene"></div>
-          <img class="tower" src="tower.png" alt="Dobbelsteentoren" />
-          <div class="tower-hole top"></div>
-          <div class="tower-hole bottom"></div>
+          <img id="tower" src="tower.png" alt="Dobbelsteentoren" />
+        </div>
+
+        <div id="resultsBar">
+          Laat eerst de dobbelstenen spinnen of stuur ze direct door de toren.
         </div>
       </section>
     </section>
