@@ -90,11 +90,35 @@ function checkWin(player) {
   return winningLines.some(line => line.every(i => board[i] === player));
 }
 
+function clearHighlights() {
+  document.querySelectorAll(".hole.valid-target").forEach(hole => {
+    hole.classList.remove("valid-target");
+  });
+}
+
+function getValidMoves(fromIndex) {
+  return connections[fromIndex].filter(index => board[index] === null);
+}
+
+function highlightValidMoves(fromIndex) {
+  clearHighlights();
+
+  const validMoves = getValidMoves(fromIndex);
+
+  validMoves.forEach(index => {
+    const holeEl = document.querySelector(`.hole[data-index="${index}"]`);
+    if (holeEl) {
+      holeEl.classList.add("valid-target");
+    }
+  });
+}
+
 function clearSelection() {
   document.querySelectorAll(".piece.selected").forEach(el => {
     el.classList.remove("selected");
   });
   selected = null;
+  clearHighlights();
 }
 
 function switchPlayer() {
@@ -110,6 +134,12 @@ function refreshHoles() {
       holeEl.classList.remove("occupied");
     }
   });
+
+  if (selected) {
+    highlightValidMoves(selected.from);
+  } else {
+    clearHighlights();
+  }
 }
 
 function updateStatus() {
@@ -125,20 +155,17 @@ function updateStatus() {
 
   if (isPlacementPhase()) {
     phaseText.textContent = "Plaatsen";
-
     turnText.textContent =
       `Speler ${currentPlayer}: kies een plek en plaats je steen`;
-
   } else {
     phaseText.textContent = "Verplaatsen";
 
     if (!selected) {
       turnText.textContent =
         `Speler ${currentPlayer}: kies een steen om te verplaatsen`;
-
     } else {
       turnText.textContent =
-        `Speler ${currentPlayer}: kies een lege (aangrenzende) plek om naartoe te bewegen`;
+        `Speler ${currentPlayer}: kies een lege gemarkeerde plek om naartoe te bewegen`;
     }
   }
 
@@ -175,13 +202,22 @@ function createPiece(player, index) {
     if (isPlacementPhase()) return;
     if (player !== currentPlayer) return;
 
+    const fromIndex = Number(el.dataset.index);
+
+    if (selected && selected.el === el) {
+      clearSelection();
+      updateStatus();
+      return;
+    }
+
     clearSelection();
     el.classList.add("selected");
     selected = {
       el,
-      from: Number(el.dataset.index)
+      from: fromIndex
     };
 
+    highlightValidMoves(fromIndex);
     updateStatus();
   });
 
@@ -244,6 +280,7 @@ function createHoles() {
     const r = scaleR(node.r);
 
     hole.className = "hole";
+    hole.dataset.index = String(index);
     hole.style.left = `${x}px`;
     hole.style.top = `${y}px`;
     hole.style.width = `${r * 2}px`;
@@ -274,6 +311,7 @@ function resetGame() {
   piecesContainer.innerHTML = "";
   hideWinPopup();
   createHoles();
+  clearHighlights();
   updateStatus();
 }
 
