@@ -148,9 +148,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function resetGame() {
     rolling = false;
     tableScene.classList.remove('rolling');
-    hideResults();
     resetDieImages();
     randomizeDicePositions();
+
+    dieSlots.forEach((slot) => {
+      slot.classList.remove('launching');
+      slot.classList.add('visible');
+      slot.style.opacity = '1';
+      slot.style.transform = 'translate(-50%, 0) scale(1)';
+    });
+
     resultSummary.textContent = 'Nog niet gegooid';
     totalValue.textContent = '0';
   }
