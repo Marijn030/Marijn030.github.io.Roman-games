@@ -166,10 +166,17 @@ document.addEventListener('DOMContentLoaded', () => {
     rolling = true;
     tableScene.classList.add('rolling');
 
-    rollingIndexes.forEach((slotIndex) => {
-      const slot = dieSlots[slotIndex];
-      slot.classList.remove('visible', 'launching');
-      slot.style.opacity = '0';
+    const rollingSet = new Set(rollingIndexes);
+
+    dieSlots.forEach((slot, index) => {
+      if (rollingSet.has(index)) {
+        slot.classList.remove('visible', 'launching');
+        slot.style.opacity = '0';
+      } else {
+        slot.classList.remove('visible', 'launching');
+        slot.style.opacity = '0';
+        lastValues[index] = null;
+      }
     });
 
     resultSummary.textContent = 'Dobbelstenen rollen...';
