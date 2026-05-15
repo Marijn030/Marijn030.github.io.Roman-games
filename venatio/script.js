@@ -221,7 +221,8 @@ function updateStatus() {
       `${currentPlayer === HUNTER ? "Jager" : "Prooi"}: kies een aangrenzend leeg kruispunt`;
   }
 
-  turnText.className = `value player-${currentPlayer}`;
+  const owner = getPieceOwner(currentPlayer);
+  turnText.className = `value player-${owner}`;
 }
 
 function showRoundModal(title, message, buttonText = "Verder") {
