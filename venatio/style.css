@@ -107,14 +107,17 @@ body {
 .value {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff5dd;
   line-height: 1.4;
 }
 
-.value.player-1,
+.value.player-1 {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
+
 .value.player-2 {
-  color: #fff5dd;
-  text-shadow: none;
+  color: #111111;
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
 }
 
 .stone-counts {
