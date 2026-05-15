@@ -111,11 +111,6 @@ body {
   line-height: 1.4;
 }
 
-.value.player-1 {
-  color: #ffffff;
-  text-shadow: 0 0 8px rgba(255,255,255,0.6);
-}
-
 .value.player-1,
 .value.player-2 {
   color: #fff5dd;
